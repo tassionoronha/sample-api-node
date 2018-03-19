@@ -22,7 +22,7 @@ describe('Testes de Integração' , () => {
     password: 'default'
   };
 
-  beforeEach((done) => {
+  before((done) => {
     model.User.destroy({
       where: {}
     })
@@ -98,8 +98,7 @@ describe('Testes de Integração' , () => {
         .send(user)
         .end((error, res) => {
           expect(res.status).to.equal(HTTPStatus.OK);
-          expect(res.body.payload.name).to.be.eql(user.name);
-          expect(res.body.payload.email).to.be.eql(user.email);
+          expect(res.body.payload[0]).to.be.eql(1);
           done(error);
 
         });

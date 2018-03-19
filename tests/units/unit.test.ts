@@ -4,6 +4,7 @@ import User from '../../server/modules/User/service';
 describe('Testes unitários do Controller', () => {
   const config = require('../../server/config/env/config');
   const model = require('../../server/models');
+  const emailAtualizado = 'novo@email.com';
 
   before((done) => {
     model.User.destroy({
@@ -46,12 +47,32 @@ describe('Testes unitários do Controller', () => {
     it('Deve atualizar um Usuário', () => {
       const usuarioAtualizado = {
         name: 'novo nome',
-        email: 'novo@email.com'
+        email: emailAtualizado
       };
       const user = new User();
       return user.update(1, usuarioAtualizado)
               .then(data => {
                 expect(data[0]).to.be.equal(1);
+              });
+    });
+  });
+
+  describe('Método GetById', () => {
+    it('Deve retornar um usuário por ID', () => {
+      const user = new User();
+      return user.getById(1)
+              .then(data => {
+                expect(data.id).to.be.equal(1);
+              });
+    });
+  });
+
+  describe('Método GetByEmail', () => {
+    it('Deve retornar um usuário por Email', () => {
+      const user = new User();
+      return user.getByEmail(emailAtualizado)
+              .then(data => {
+                expect(data.email).to.be.equal(emailAtualizado);
               });
     });
   });
